@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #f2f2f2;
+            border-radius: 6px;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Task Tracker</h1>
+
+<p>Keep track of the tasks you need to complete.</p>
+
+<ul>
+    <li th:each="task : ${tasks}" th:text="${task.description}"></li>
+</ul>
+
+<form action="/add" method="post">
+    <input
+            type="text"
+            name="description"
+            placeholder="Enter a new task"
+            required>
+
+    <button type="submit">Add Task</button>
+</form>
+
+</body>
+</html>
