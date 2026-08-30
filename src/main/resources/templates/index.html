@@ -54,7 +54,14 @@
 <p>Keep track of the tasks you need to complete.</p>
 
 <ul>
-    <li th:each="task : ${tasks}" th:text="${task.description}"></li>
+    <li th:each="task, stat : ${tasks}">
+        <span th:text="${task.description}"></span>
+
+        <form action="/done" method="post" style="display: inline;">
+            <input type="hidden" name="index" th:value="${stat.index}">
+            <button type="submit">Done</button>
+        </form>
+    </li>
 </ul>
 
 <form action="/add" method="post">

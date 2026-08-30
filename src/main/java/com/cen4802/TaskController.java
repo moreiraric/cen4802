@@ -34,4 +34,13 @@ public class TaskController {
 
         return "redirect:/";
     }
+
+    @PostMapping("/done")
+    public String completeTask(@RequestParam int index) {
+        if (index >= 0 && index < tasks.size()) {
+            tasks.remove(index);
+        }
+
+        return "redirect:/";
+    }
 }
