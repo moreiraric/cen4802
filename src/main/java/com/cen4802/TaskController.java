@@ -23,6 +23,7 @@ public class TaskController {
     @GetMapping("/")
     public String showTasks(Model model) {
         model.addAttribute("tasks", tasks);
+        model.addAttribute("taskCount", tasks.size());
         return "index";
     }
 

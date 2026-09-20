@@ -19,6 +19,7 @@ class TaskControllerTest {
         List<Task> tasks = (List<Task>) model.getAttribute("tasks");
 
         assertEquals("index", viewName);
+        assertEquals(3, model.getAttribute("taskCount"));
         assertIterableEquals(
                 List.of("Finish Java assignment", "Study Git and GitHub", "Submit project"),
                 tasks.stream().map(Task::getDescription).toList()
