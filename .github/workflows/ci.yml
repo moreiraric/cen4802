@@ -35,3 +35,22 @@ jobs:
           name: task-tracker-jar
           path: target/cen4802-1.0-SNAPSHOT.jar
           if-no-files-found: error
+
+      - name: Build Docker image
+        if: success()
+        run: |
+          docker build \
+            --label "org.opencontainers.image.revision=$GITHUB_SHA" \
+            --tag "task-tracker:$GITHUB_SHA" .
+
+      - name: Save Docker image
+        run: |
+          docker save "task-tracker:$GITHUB_SHA" | gzip > task-tracker-image.tar.gz
+
+      - name: Upload Docker image
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-tracker-image
+          path: task-tracker-image.tar.gz
+          compression-level: 0
+          if-no-files-found: error
