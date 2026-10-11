@@ -44,4 +44,10 @@ public class TaskController {
 
         return "redirect:/";
     }
+
+    @PostMapping("/clear")
+    public String clearTasks() {
+        tasks.clear();
+        return "redirect:/";
+    }
 }

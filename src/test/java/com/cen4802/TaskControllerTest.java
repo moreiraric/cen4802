@@ -87,4 +87,62 @@ class TaskControllerTest {
                 tasks.stream().map(Task::getDescription).toList()
         );
     }
+
+    @Test
+    void clearTasksRemovesAllTasks() {
+        // Creates a controller containing the three starting tasks.
+        TaskController controller = new TaskController();
+
+        // Clears the list and captures the returned page instruction.
+        String viewName = controller.clearTasks();
+
+        // Gets the task list and count that would be displayed.
+        ExtendedModelMap model = new ExtendedModelMap();
+        controller.showTasks(model);
+
+        // Checks that the method redirects home and leaves no tasks.
+        assertEquals("redirect:/", viewName);
+        assertEquals(0, model.getAttribute("taskCount"));
+        assertEquals(List.of(), model.getAttribute("tasks"));
+    }
+
+    @Test
+    void clearTasksWorksWhenAlreadyEmpty() {
+        // Clears the starting tasks to prepare an empty list.
+        TaskController controller = new TaskController();
+        controller.clearTasks();
+
+        // Attempts to clear the already empty list.
+        String viewName = controller.clearTasks();
+
+        ExtendedModelMap model = new ExtendedModelMap();
+        controller.showTasks(model);
+
+        // Checks that clearing an empty list still works correctly.
+        assertEquals("redirect:/", viewName);
+        assertEquals(0, model.getAttribute("taskCount"));
+        assertEquals(List.of(), model.getAttribute("tasks"));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void addTaskWorksAfterClearingAllTasks() {
+        // Removes the starting tasks before adding a new one.
+        TaskController controller = new TaskController();
+        controller.clearTasks();
+
+        // Adds a task to confirm that the cleared list remains usable.
+        controller.addTask("Record midterm demonstration");
+
+        ExtendedModelMap model = new ExtendedModelMap();
+        controller.showTasks(model);
+        List<Task> tasks = (List<Task>) model.getAttribute("tasks");
+
+        // Checks that the list contains only the newly added task.
+        assertEquals(1, model.getAttribute("taskCount"));
+        assertIterableEquals(
+                List.of("Record midterm demonstration"),
+                tasks.stream().map(Task::getDescription).toList()
+        );
+    }
 }
