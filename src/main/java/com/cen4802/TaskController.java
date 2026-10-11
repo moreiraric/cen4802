@@ -30,7 +30,7 @@ public class TaskController {
     @PostMapping("/add")
     public String addTask(@RequestParam String description) {
         if (description != null && !description.trim().isEmpty()) {
-            tasks.add(new Task(description.trim()));
+            tasks.add(new Task(description));
         }
 
         return "redirect:/";
